@@ -1,0 +1,1037 @@
+openapi: 3.1.0
+info:
+  title: ELDent API
+  description: ELDent — stomatoloq randevu sistemi REST API (JWT Bearer autentifikasiya).
+  version: 1.0.0
+paths:
+  /auth/register:
+    post:
+      tags:
+      - auth
+      summary: Register
+      operationId: register_auth_register_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /auth/login:
+    post:
+      tags:
+      - auth
+      summary: Login
+      operationId: login_auth_login_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Token'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /auth/me:
+    get:
+      tags:
+      - auth
+      summary: Me
+      operationId: me_auth_me_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserOut'
+      security:
+      - HTTPBearer: []
+    put:
+      tags:
+      - auth
+      summary: Update Me
+      operationId: update_me_auth_me_put
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdate'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - HTTPBearer: []
+  /doctors:
+    get:
+      tags:
+      - doctors
+      summary: List Doctors
+      operationId: list_doctors_doctors_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/DoctorOut'
+                type: array
+                title: Response List Doctors Doctors Get
+    post:
+      tags:
+      - doctors
+      summary: Create Doctor
+      operationId: create_doctor_doctors_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DoctorCreate'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DoctorOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - HTTPBearer: []
+  /doctors/{doctor_id}:
+    get:
+      tags:
+      - doctors
+      summary: Get Doctor
+      operationId: get_doctor_doctors__doctor_id__get
+      parameters:
+      - name: doctor_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Doctor Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DoctorOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    put:
+      tags:
+      - doctors
+      summary: Update Doctor
+      operationId: update_doctor_doctors__doctor_id__put
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: doctor_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Doctor Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DoctorUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DoctorOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - doctors
+      summary: Delete Doctor
+      operationId: delete_doctor_doctors__doctor_id__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: doctor_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Doctor Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /services:
+    get:
+      tags:
+      - services
+      summary: List Services
+      operationId: list_services_services_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ServiceOut'
+                type: array
+                title: Response List Services Services Get
+    post:
+      tags:
+      - services
+      summary: Create Service
+      operationId: create_service_services_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceCreate'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - HTTPBearer: []
+  /services/{service_id}:
+    get:
+      tags:
+      - services
+      summary: Get Service
+      operationId: get_service_services__service_id__get
+      parameters:
+      - name: service_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Service Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    put:
+      tags:
+      - services
+      summary: Update Service
+      operationId: update_service_services__service_id__put
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: service_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Service Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - services
+      summary: Delete Service
+      operationId: delete_service_services__service_id__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: service_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Service Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /appointments:
+    get:
+      tags:
+      - appointments
+      summary: List Appointments
+      operationId: list_appointments_appointments_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/AppointmentOut'
+                type: array
+                title: Response List Appointments Appointments Get
+      security:
+      - HTTPBearer: []
+    post:
+      tags:
+      - appointments
+      summary: Create Appointment
+      operationId: create_appointment_appointments_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AppointmentCreate'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppointmentOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - HTTPBearer: []
+  /appointments/{appointment_id}:
+    get:
+      tags:
+      - appointments
+      summary: Get Appointment
+      operationId: get_appointment_appointments__appointment_id__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: appointment_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Appointment Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppointmentOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - appointments
+      summary: Cancel Appointment
+      operationId: cancel_appointment_appointments__appointment_id__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: appointment_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Appointment Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /admin/stats:
+    get:
+      tags:
+      - admin
+      summary: Stats
+      operationId: stats_admin_stats_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminStats'
+      security:
+      - HTTPBearer: []
+  /admin/appointments:
+    get:
+      tags:
+      - admin
+      summary: All Appointments
+      operationId: all_appointments_admin_appointments_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: status_filter
+        in: query
+        required: false
+        schema:
+          type: string
+          title: Status Filter
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AppointmentAdminOut'
+                title: Response All Appointments Admin Appointments Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /admin/appointments/{appointment_id}/status:
+    patch:
+      tags:
+      - admin
+      summary: Update Status
+      operationId: update_status_admin_appointments__appointment_id__status_patch
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: appointment_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Appointment Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AppointmentStatusUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppointmentAdminOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /admin/users:
+    get:
+      tags:
+      - admin
+      summary: List Users
+      operationId: list_users_admin_users_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/UserOut'
+                type: array
+                title: Response List Users Admin Users Get
+      security:
+      - HTTPBearer: []
+  /:
+    get:
+      tags:
+      - health
+      summary: Root
+      operationId: root__get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+components:
+  schemas:
+    AdminStats:
+      properties:
+        users:
+          type: integer
+          title: Users
+        doctors:
+          type: integer
+          title: Doctors
+        services:
+          type: integer
+          title: Services
+        appointments:
+          type: integer
+          title: Appointments
+        upcoming:
+          type: integer
+          title: Upcoming
+        by_status:
+          type: object
+          title: By Status
+      type: object
+      required:
+      - users
+      - doctors
+      - services
+      - appointments
+      - upcoming
+      - by_status
+      title: AdminStats
+    AppointmentAdminOut:
+      properties:
+        id:
+          type: integer
+          title: Id
+        user_id:
+          type: integer
+          title: User Id
+        doctor_id:
+          type: integer
+          title: Doctor Id
+        service_id:
+          type: integer
+          title: Service Id
+        start_time:
+          type: string
+          format: date-time
+          title: Start Time
+        end_time:
+          type: string
+          format: date-time
+          title: End Time
+        status:
+          type: string
+          title: Status
+        notes:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Notes
+        doctor:
+          anyOf:
+          - $ref: '#/components/schemas/DoctorOut'
+          - type: 'null'
+        service:
+          anyOf:
+          - $ref: '#/components/schemas/ServiceOut'
+          - type: 'null'
+        user:
+          anyOf:
+          - $ref: '#/components/schemas/UserOut'
+          - type: 'null'
+      type: object
+      required:
+      - id
+      - user_id
+      - doctor_id
+      - service_id
+      - start_time
+      - end_time
+      - status
+      title: AppointmentAdminOut
+    AppointmentCreate:
+      properties:
+        doctor_id:
+          type: integer
+          title: Doctor Id
+        service_id:
+          type: integer
+          title: Service Id
+        start_time:
+          type: string
+          format: date-time
+          title: Start Time
+        notes:
+          anyOf:
+          - type: string
+            maxLength: 500
+          - type: 'null'
+          title: Notes
+      type: object
+      required:
+      - doctor_id
+      - service_id
+      - start_time
+      title: AppointmentCreate
+    AppointmentOut:
+      properties:
+        id:
+          type: integer
+          title: Id
+        user_id:
+          type: integer
+          title: User Id
+        doctor_id:
+          type: integer
+          title: Doctor Id
+        service_id:
+          type: integer
+          title: Service Id
+        start_time:
+          type: string
+          format: date-time
+          title: Start Time
+        end_time:
+          type: string
+          format: date-time
+          title: End Time
+        status:
+          type: string
+          title: Status
+        notes:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Notes
+        doctor:
+          anyOf:
+          - $ref: '#/components/schemas/DoctorOut'
+          - type: 'null'
+        service:
+          anyOf:
+          - $ref: '#/components/schemas/ServiceOut'
+          - type: 'null'
+      type: object
+      required:
+      - id
+      - user_id
+      - doctor_id
+      - service_id
+      - start_time
+      - end_time
+      - status
+      title: AppointmentOut
+    AppointmentStatusUpdate:
+      properties:
+        status:
+          type: string
+          enum:
+          - pending
+          - confirmed
+          - completed
+          - cancelled
+          title: Status
+      type: object
+      required:
+      - status
+      title: AppointmentStatusUpdate
+    DoctorCreate:
+      properties:
+        full_name:
+          type: string
+          maxLength: 150
+          minLength: 2
+          title: Full Name
+        specialty:
+          type: string
+          maxLength: 150
+          minLength: 2
+          title: Specialty
+        experience_years:
+          type: integer
+          maximum: 70.0
+          minimum: 0.0
+          title: Experience Years
+          default: 0
+        bio:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Bio
+      type: object
+      required:
+      - full_name
+      - specialty
+      title: DoctorCreate
+    DoctorOut:
+      properties:
+        full_name:
+          type: string
+          maxLength: 150
+          minLength: 2
+          title: Full Name
+        specialty:
+          type: string
+          maxLength: 150
+          minLength: 2
+          title: Specialty
+        experience_years:
+          type: integer
+          maximum: 70.0
+          minimum: 0.0
+          title: Experience Years
+          default: 0
+        bio:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Bio
+        id:
+          type: integer
+          title: Id
+      type: object
+      required:
+      - full_name
+      - specialty
+      - id
+      title: DoctorOut
+    DoctorUpdate:
+      properties:
+        full_name:
+          type: string
+          maxLength: 150
+          minLength: 2
+          title: Full Name
+        specialty:
+          type: string
+          maxLength: 150
+          minLength: 2
+          title: Specialty
+        experience_years:
+          type: integer
+          maximum: 70.0
+          minimum: 0.0
+          title: Experience Years
+          default: 0
+        bio:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Bio
+      type: object
+      required:
+      - full_name
+      - specialty
+      title: DoctorUpdate
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ServiceCreate:
+      properties:
+        name:
+          type: string
+          maxLength: 150
+          minLength: 2
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        price:
+          type: number
+          minimum: 0.0
+          title: Price
+          default: 0
+        duration_minutes:
+          type: integer
+          maximum: 480.0
+          minimum: 5.0
+          title: Duration Minutes
+          default: 30
+      type: object
+      required:
+      - name
+      title: ServiceCreate
+    ServiceOut:
+      properties:
+        name:
+          type: string
+          maxLength: 150
+          minLength: 2
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        price:
+          type: number
+          minimum: 0.0
+          title: Price
+          default: 0
+        duration_minutes:
+          type: integer
+          maximum: 480.0
+          minimum: 5.0
+          title: Duration Minutes
+          default: 30
+        id:
+          type: integer
+          title: Id
+      type: object
+      required:
+      - name
+      - id
+      title: ServiceOut
+    ServiceUpdate:
+      properties:
+        name:
+          type: string
+          maxLength: 150
+          minLength: 2
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        price:
+          type: number
+          minimum: 0.0
+          title: Price
+          default: 0
+        duration_minutes:
+          type: integer
+          maximum: 480.0
+          minimum: 5.0
+          title: Duration Minutes
+          default: 30
+      type: object
+      required:
+      - name
+      title: ServiceUpdate
+    Token:
+      properties:
+        access_token:
+          type: string
+          title: Access Token
+        token_type:
+          type: string
+          title: Token Type
+          default: bearer
+      type: object
+      required:
+      - access_token
+      title: Token
+    UserCreate:
+      properties:
+        email:
+          type: string
+          format: email
+          title: Email
+        full_name:
+          type: string
+          maxLength: 150
+          minLength: 2
+          title: Full Name
+        phone:
+          anyOf:
+          - type: string
+            maxLength: 30
+          - type: 'null'
+          title: Phone
+        password:
+          type: string
+          maxLength: 128
+          minLength: 6
+          title: Password
+      type: object
+      required:
+      - email
+      - full_name
+      - password
+      title: UserCreate
+    UserLogin:
+      properties:
+        email:
+          type: string
+          format: email
+          title: Email
+        password:
+          type: string
+          title: Password
+      type: object
+      required:
+      - email
+      - password
+      title: UserLogin
+    UserOut:
+      properties:
+        id:
+          type: integer
+          title: Id
+        email:
+          type: string
+          format: email
+          title: Email
+        full_name:
+          type: string
+          title: Full Name
+        phone:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Phone
+        role:
+          type: string
+          title: Role
+      type: object
+      required:
+      - id
+      - email
+      - full_name
+      - role
+      title: UserOut
+    UserUpdate:
+      properties:
+        full_name:
+          anyOf:
+          - type: string
+            maxLength: 150
+            minLength: 2
+          - type: 'null'
+          title: Full Name
+        phone:
+          anyOf:
+          - type: string
+            maxLength: 30
+          - type: 'null'
+          title: Phone
+      type: object
+      title: UserUpdate
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer
+servers:
+- url: http://localhost:8000
+  description: Lokal (docker-compose)

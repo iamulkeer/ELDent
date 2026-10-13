@@ -1,0 +1,14 @@
+# Build context: ELDent/ (kök qovluq)
+FROM python:3.10-slim
+
+WORKDIR /app
+
+COPY 02_Backend/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY 02_Backend/ .
+
+EXPOSE 8000
+
+# 1) miqrasiyaları tətbiq et  2) API-ni işə sal (admin və xidmətlər startda seed olunur)
+CMD ["sh", "-c", "alembic upgrade head && python -m uvicorn app.main:app --host 0.0.0.0 --port 8000"]
